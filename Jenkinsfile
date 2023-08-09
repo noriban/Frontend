@@ -15,7 +15,7 @@ pipeline {
     stages {
         stage('Git pull') {
             steps {
-               //git url: 'https://github.com/kacpergadula/Frontend.git', branch: "tests"
+               //git url: 'https://github.com/noriban/panda_frontend.git', branch: "main"
             	checkout scm
 		}
         }
