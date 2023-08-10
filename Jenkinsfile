@@ -13,14 +13,13 @@ pipeline {
     }
     
     stages {
-        stage('Git pull') {
+        stage('Git checkout scm') {
             steps {
-               //git url: 'https://github.com/noriban/panda_frontend.git', branch: "main"
             	checkout scm
 		}
         }
 
-        stage('Testy jednostkowe') {
+        stage('Unit tests') {
             steps {
                 sh 'pip3 install -r requirements.txt'
                 sh 'python3 -m pytest --cov=. --cov-report xml:test-results/coverage.xml --junitxml=test-results/pytest-report.xml'
@@ -41,7 +40,7 @@ pipeline {
         stage('Docker') {
             steps {
                 script{
-                    dockerTag = "RC-${env.BUILD_ID}"
+                    dockerTag = "RC-${env.BUILD_ID}.${env.GIT_COMMIT.take(7)}"
                     //.${env.GIT_COMMIT.take(7)}
                     applicationImage=docker.build("$imageName:$dockerTag", ".")
                 }
